@@ -5,3 +5,7 @@ print("Vivesh Devops Engineer in Bangalore, India")
 print("Vivesh Devops Engineer in Bangalore, India, Asia")
 
 print("Ankit Kumar")
+
+
+def add(a,b):
+    return a+b
