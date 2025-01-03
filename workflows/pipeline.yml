@@ -1,0 +1,44 @@
+name: Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Lint code with Ruff
+      run: |
+        ruff check .
+    
+    - name: Test with pytest
+      run: |
+        mkdir -p junit  # Ensure the 'junit' directory exists
+        pytest --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+
+    - name: Upload pytest test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: pytest-results
+        path: junit/test-results.xml  # Ensure the correct path to the file
+      if: ${{ always() }}  # Always run this step, even if previous ones fail

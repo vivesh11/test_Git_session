@@ -1,0 +1,22 @@
+# docker-compose.yml
+
+version: "3.12"
+services:
+  flask-api:
+    build: .
+    ports:
+      - "5050:5000"  # Exposing 5050 on the host and mapping it to 5000 inside the container
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+    command: flask run --host=0.0.0.0
+
+  pytest:
+    build: .
+    command: pytest
+    volumes:
+      - .:/app
+    depends_on:
+      - flask-api

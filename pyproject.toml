@@ -1,0 +1,15 @@
+[tool.ruff]
+# List of enabled rules
+select = ["E", "F", "W", "C90"]
+
+# Exclude specific files or directories
+exclude = ["tests/", "docs/"]
+
+# Maximum line length
+line-length = 88
+
+# Enable autofix
+fix = true
+
+# Additional configuration options
+ignore = ["E501"]
